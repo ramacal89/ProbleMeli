@@ -2,7 +2,7 @@
  Calvo Ramiro - 2020/11/26 - ProbleMeli
  INSERT DATA
 */
- USE ProbleMeli
+USE [Test]
 --piscu.database.windows.net--
  BEGIN TRAN
  --Genders--
@@ -19,7 +19,21 @@
 		INSERT INTO [dbo].[Category] VALUES (null,'Tecnología', getdate(),getdate(),1);
 		INSERT INTO [dbo].[Category] VALUES (1,'Celulares y Teléfonos', getdate(),getdate(),1);
 		INSERT INTO [dbo].[Category] VALUES (2,'Celulares y Smartphones', getdate(),getdate(),1);
+		INSERT INTO [dbo].[Category] VALUES (null,'Computacion', getdate(),getdate(),1);
+		INSERT INTO [dbo].[Category] VALUES (4,'Perifericos', getdate(),getdate(),1);
+		INSERT INTO [dbo].[Category] VALUES (5,'Mouse', getdate(),getdate(),1);
 	END
+  IF NOT EXISTS (SELECT * FROM [dbo].[CategoryDupli])
+	BEGIN
+		INSERT INTO [dbo].[CategoryDupli] VALUES (1,null,'Tecnología', getdate(),getdate(),1);
+		INSERT INTO [dbo].[CategoryDupli] VALUES (2,1,'Celulares y Teléfonos', getdate(),getdate(),1);
+		INSERT INTO [dbo].[CategoryDupli] VALUES (3,2,'Celulares y Smartphones', getdate(),getdate(),1);
+		INSERT INTO [dbo].[CategoryDupli] VALUES (4,null,'Computacion', getdate(),getdate(),1);
+		INSERT INTO [dbo].[CategoryDupli] VALUES (5,4,'Perifericos', getdate(),getdate(),1);
+		INSERT INTO [dbo].[CategoryDupli] VALUES (5,4,'Perifericos', getdate(),getdate()-1,1);
+		INSERT INTO [dbo].[CategoryDupli] VALUES (6,5,'Mouse', getdate(),getdate(),1);
+	END
+	
  --Customers--
  IF NOT EXISTS (SELECT * FROM [dbo].[Customer])
 	BEGIN

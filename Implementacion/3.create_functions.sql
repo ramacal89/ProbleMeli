@@ -1,6 +1,6 @@
-
-
-
+--DENTRO DE LA BASE DE PROBLEMELI--
+------------------INICIO - CREACION DE FUNCIONES -----------------------
+------------------OBTIENE EL PATH DE UNA CATEGORIA-----------------------
 CREATE FUNCTION [dbo].[Path_Category_Item](@CategoryId int, @Path varchar(500))
 
 RETURNS varchar(500)
@@ -25,5 +25,4 @@ AS BEGIN
       RETURN @Path
 
 END
-
-
+------------------FIN - CREACION DE FUNCIONES -----------------------

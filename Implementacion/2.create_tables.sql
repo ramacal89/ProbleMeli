@@ -1,4 +1,4 @@
-USE [ProbleMeli]
+USE [Test]
 GO
 
 /****** Object:  Table [dbo].[PaymentDetails]    Script Date: 25/11/2020 23:41:49 ******/
@@ -126,6 +126,16 @@ CREATE TABLE [dbo].[Category](
 ) ON [PRIMARY]
 GO
 ------------------FIN - CREACION DE LA TABLA CATEGORIA------------------
+------------------INICIO - CREACION DE LA TABLA CATEGORIA CON DUPLICADOS PARA EL ITEM 6-------------------
+CREATE TABLE [dbo].[CategoryDupli](
+	[Id] [int]  NOT NULL,
+	[ParentCategoryId] int NULL,
+	[Name] nvarchar(max) NOT NULL,
+	[LastUpdate] datetime NOT NULL,
+	[CreationDate] datetime NOT NULL,
+	[Active] bit NOT NULL)
+	
+------------------INICIO - CREACION DE LA TABLA CATEGORIA CON DUPLICADOS PARA EL ITEM 6------------------
 ------------------------------- FIN - CREACION DE TABLAS -------------------------------
 
 
@@ -175,7 +185,7 @@ ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_Item_Product_ProductId]
 ALTER TABLE [dbo].[ItemHistory]  WITH CHECK ADD  CONSTRAINT [FK_ItemHistory_Item_ItemId] FOREIGN KEY([ItemId])
 REFERENCES [dbo].[Item] ([Id])
 GO
-ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_ItemHistory_Item_ItemId]
+ALTER TABLE [dbo].[ItemHistory] CHECK CONSTRAINT [FK_ItemHistory_Item_ItemId]
 ------------------FIN - CREACION DE CLAVES FORANEAS ITEMHiSTORY------------------
 
 ------------------INICIO - CREACION DE CLAVES FORANEAS CATEGORIA-------------------
@@ -187,33 +197,6 @@ GO
 ALTER TABLE [dbo].[Category] CHECK CONSTRAINT [FK_Category_ParentCategory_ParentCategoryId]
 GO
 ------------------FIN - CREACION DE CLAVES FORANEAS CATEGORIA-------------------
-------------------INICIO - CREACION DE FUNCIONES -----------------------
-------------------OBTIENE EL PATH DE UNA CATEGORIA-----------------------
-CREATE FUNCTION [dbo].[Path_Category_Item](@CategoryId int, @Path varchar(500))
-
-RETURNS varchar(500)
-
-AS BEGIN
-
-      DECLARE @ParentCategoryId int;
-
-      SELECT @CategoryId = c.Id
-			, @Path = c.Name
-			, @ParentCategoryId = ISNULL(c.ParentCategoryId,-1)
-
-                  FROM Category c
-				  WHERE c.Id = @CategoryId
-
-      if (@ParentCategoryId >0) begin
-
-            RETURN dbo.Path_Category_Item(@ParentCategoryId,@Path) + '>' + @Path
-
-            end
-
-      RETURN @Path
-
-END
-------------------FIN - CREACION DE FUNCIONES -----------------------
 
 
 
