@@ -1,7 +1,0 @@
-¡Resolución del ProbleMeli!
----------------------------
-
-Antes que nada queria decirle a usted lector y a todo el equipo de MELI, muchas gracias por la oportunidad y el tiempo dedicado a visualizar 
-y controlar este trabajo, asi como tambien el de los demas entrevistados.
-
-La idea de este documento es descirbir e indicar los pasos a ejecutar para la resolucion del ProbleMeli, asique sin muchas vueltas BEGIN TRAN:
