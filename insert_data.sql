@@ -223,6 +223,8 @@
 	INSERT INTO [dbo].[Customer] (GenderId,Email,FirstName,LastName,Address,BirthDate,PhoneNumber,CreationDate)  VALUES (2, 'et.libero.Proin@Nulla.co.uk','Isidora','Vera','Ap #244-8073 Mi Road','1963-05-19','16171018 6410',getdate());
 	INSERT INTO [dbo].[Customer] (GenderId,Email,FirstName,LastName,Address,BirthDate,PhoneNumber,CreationDate)  VALUES (2, 'gravida.Aliquam.tincidunt@sedsemegestas.net','Denisse','Martínez','Ap #396-5863 Cursus Ave','1964-07-01','16180907 4527',getdate());
 	INSERT INTO [dbo].[Customer] (GenderId,Email,FirstName,LastName,Address,BirthDate,PhoneNumber,CreationDate)  VALUES (2, 'quis.diam@ultricesmauris.net','Maria','Soto','4276 Non, Ave','1997-10-01','16170405 2735',getdate());
+	
+	UPDATE Customer SET BirthDate =  CONVERT(date, getdate()) where id = FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1)
 
 	END
 IF NOT EXISTS (SELECT * FROM [dbo].[Product])
@@ -282,28 +284,57 @@ IF NOT EXISTS (SELECT * FROM [dbo].[Item])
 		DECLARE @FromDate datetime = '2020-01-01';
 		DECLARE @ToDate datetime = '2020-11-11';
 		DECLARE @FromDate2 datetime = '2018-01-01';
-		DECLARE @ToDate2 datetime = '2020-11-26';
+		DECLARE @ToDate2 datetime = '2020-08-26';
 		DECLARE @cnt INT = 0;
 
 		WHILE @cnt < 20
 		BEGIN
-		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Maquinola',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
-		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Loco',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
-		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Loquillo',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
-		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Maquinola',FLOOR(RAND()*(100000-30000)+30000),null,dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
-		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Loco',FLOOR(RAND()*(100000-30000)+30000),null,dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
-		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Loquillo',FLOOR(RAND()*(100000-30000)+30000),null,dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Product)-1)+1),'No te pierdas este telefono Unico Maquinola',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Product)-1)+1),'No te pierdas este telefono Unico Loco',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Product)-1)+1),'No te pierdas este telefono Unico Loquillo',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Product)-1)+1),'No te pierdas este telefono Unico Maquinola',FLOOR(RAND()*(100000-30000)+30000),null,dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Product)-1)+1),'No te pierdas este telefono Unico Loco',FLOOR(RAND()*(100000-30000)+30000),null,dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+		   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Product)-1)+1),'No te pierdas este telefono Unico Loquillo',FLOOR(RAND()*(100000-30000)+30000),null,dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
 
 		   SET @cnt = @cnt + 1;
 		END;
 END;
- 
- INSERT INTO [dbo].[Order] VALUES (FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Item)-1)+1),FLOOR(RAND()*(5-1)+1),0,getdate())
+IF NOT EXISTS (SELECT * FROM [dbo].[Order])
+   BEGIN
+		
+		DECLARE @cnt2 INT = 0;
 
+		WHILE @cnt2 < 300
+		BEGIN
+		   INSERT INTO [dbo].[Order] VALUES (FLOOR(RAND()*((SELECT COUNT(ID) FROM Customer)-1)+1),FLOOR(RAND()*((SELECT COUNT(ID) FROM Item)-1)+1),FLOOR(RAND()*(5-1)+1),0,getdate());
+		   UPDATE [dbo].[Order] 
+		      SET OrderDate = (dateadd(day,FLOOR(RAND()*(30-1)+1),'2020-01-01')),
+			     [dbo].[Order].TotalAmount = [dbo].[Order].Quantity * [dbo].[Item].[Price]
+			 FROM [dbo].[Item] 
+		    WHERE [dbo].[Order].id = @@IDENTITY and [dbo].[Order].itemid = [dbo].[Item].id;
+
+		   SET @cnt2 = @cnt2 + 1;
+		END;
+
+		 UPDATE [dbo].[Order] 
+		   SET [dbo].[Order].OrderDate = (dateadd(day,FLOOR(RAND()*(90-1)+1),item.CreationDate)) 
+		  FROM [dbo].[Item] 
+		 WHERE [dbo].[Order].itemid = [dbo].[Item].id and [dbo].[Order].id > 90
+
+		/*UPDATE [dbo].[Order] 
+		   SET [dbo].[Order].OrderDate = (dateadd(day,FLOOR(RAND()*(90-1)+1),item.CreationDate)) ,
+			   [dbo].[Order].TotalAmount = [dbo].[Order].Quantity * [dbo].[Item].[Price]
+		  FROM [dbo].[Item] 
+		 WHERE [dbo].[Order].itemid = [dbo].[Item].id;
+
+		 UPDATE [dbo].[Order] 
+		   SET OrderDate = (dateadd(day,FLOOR(RAND()*(30-1)+1),'2020-01-01'))   
+		 WHERE [dbo].[Order].id = @@IDENTITY
+		 */
+
+   END;
 
  IF @@ERROR <> 0
 	ROLLBACK
  ELSE
 	COMMIT
-
-	

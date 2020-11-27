@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[Customer](
 	[FirstName] varchar(max) NOT NULL,
 	[LastName] varchar(max) NOT NULL,
 	[Address] varchar(max) NOT NULL,
-	[BirthDate] datetime NOT NULL,
+	[BirthDate] date NOT NULL,
 	[PhoneNumber] varchar(max) NOT NULL,
 	[CreationDate] datetime NOT NULL,
 
@@ -34,9 +34,9 @@ CREATE TABLE [dbo].[Order](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[BuyerCustomerId] [bigint] NOT NULL,
 	[ItemId] [bigint] NOT NULL,
-	[Quantity] varchar(max) NOT NULL,
-	[TotalAmount] varchar(max) NOT NULL,
-	[CreationDate] datetime NOT NULL,
+	[Quantity] int NOT NULL,
+	[TotalAmount] decimal(18,2) NOT NULL,
+	[OrderDate] datetime NOT NULL,
 	
 --CLAVES PRIMARIAS--
  CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
@@ -66,6 +66,22 @@ CREATE TABLE [dbo].[Item](
 ) ON [PRIMARY]
 GO
 ------------------FIN - CREACION DE LA TABLA ITEM------------------
+------------------INICIO - CREACION DE LA TABLA ITEMHISTORY-------------------
+CREATE TABLE [dbo].[ItemHistory](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[ItemId] [bigint] NOT NULL,
+	[Price] decimal(18,2) NOT NULL,
+	[TerminationDate] datetime NULL,
+	[CreationDate] datetime NULL,
+	
+--CLAVES PRIMARIAS--
+ CONSTRAINT [PK_ItemHistory] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+------------------FIN - CREACION DE LA TABLA ITEMHistory------------------
 
 ------------------INICIO - CREACION DE LA TABLA PRODUCT-------------
 CREATE TABLE [dbo].[Product](
@@ -154,6 +170,13 @@ REFERENCES [dbo].[Product] ([Id])
 GO
 ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_Item_Product_ProductId]
 ------------------FIN - CREACION DE CLAVES FORANEAS ITEM------------------
+------------------INICIO - CREACION DE CLAVES FORANEAS ITEMHISTORY-------------------
+--CON LA TABLA CATEGORY--
+ALTER TABLE [dbo].[ItemHistory]  WITH CHECK ADD  CONSTRAINT [FK_ItemHistory_Item_ItemId] FOREIGN KEY([ItemId])
+REFERENCES [dbo].[Item] ([Id])
+GO
+ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_ItemHistory_Item_ItemId]
+------------------FIN - CREACION DE CLAVES FORANEAS ITEMHiSTORY------------------
 
 ------------------INICIO - CREACION DE CLAVES FORANEAS CATEGORIA-------------------
 
@@ -191,5 +214,7 @@ AS BEGIN
 
 END
 ------------------FIN - CREACION DE FUNCIONES -----------------------
+
+
 
 

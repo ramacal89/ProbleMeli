@@ -1,11 +1,14 @@
 DROP TABLE [dbo].[UserType]
 DROP TABLE [dbo].[Order]
 DROP TABLE [dbo].[Item]
+DROP TABLE [dbo].[ItemHistory]
 DROP TABLE [dbo].[Gender]
 DROP TABLE [dbo].[Customer]
 DROP TABLE [dbo].[Category]
 DROP TABLE [dbo].[Product]
 DROP FUNCTION [dbo].[Path_Category_Item]
+
+INSERT INTO [dbo].[Order] VALUES (FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(120-1)+1),'',FLOOR(RAND()*(5-1)+1),0,getdate())
 
 INSERT INTO[dbo].[Category] (GenderId,Email,FirstName,LastName,Address,BirthDate,PhoneNumber,CreationDate)  VALUES (1, 'ipsum.dolor.sit@sitametluctus.com','Vincent','Castro','Ap #442-543 Ultricies St.','1973-12-20','16670922 1136',getdate())
 INSERT INTO [dbo].[Category] VALUES (null,'Tecnología', getdate(),getdate(),1)
@@ -13,19 +16,21 @@ INSERT INTO [dbo].[Category] VALUES (null,'Tecnología', getdate(),getdate(),1)
 INSERT INTO [dbo].[Item] VALUES (ROUND(RAND()*1000000000,0),'iPhone 11 64 GB Negro',1);
 INSERT INTO ITEM VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Maquinola',FLOOR(RAND()*(100000-30000)+30000),null,dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2)
 
-declare @FromDate datetime = '2020-01-01'
-declare @ToDate datetime = '2020-11-11'
-declare @FromDate2 datetime = '2018-01-01'
-declare @ToDate2 datetime = '2020-11-26'
-INSERT INTO [dbo].[Item] VALUES (3,
-FLOOR(RAND()*(200-1)+1),
-FLOOR(RAND()*(49-1)+1),
-'No te pierdas este telefono Unico Maquinola',
-FLOOR(RAND()*(100000-30000)+30000),
-dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),
-dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+DECLARE @FromDate datetime = '2020-01-01';
+DECLARE @ToDate datetime = '2020-11-11';
+DECLARE @FromDate2 datetime = '2018-01-01';
+DECLARE @ToDate2 datetime = '2020-11-26';
+DECLARE @cnt INT = 0;
 
-SELECT * FROM Category
+WHILE @cnt < 50
+BEGIN
+   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Maquinola',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Loco',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+   INSERT INTO [dbo].[Item] VALUES (3,FLOOR(RAND()*(200-1)+1),FLOOR(RAND()*(49-1)+1),'No te pierdas este telefono Unico Loquillo',FLOOR(RAND()*(100000-30000)+30000),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate, @ToDate)),@FromDate),dateadd(day,rand(checksum(newid()))*(1+datediff(day, @FromDate2, @ToDate2)),@FromDate2))
+
+   SET @cnt = @cnt + 1;
+END;
+
 
 
 ------------------INICIO - CREACION DE LA TABLA USERTYPE---------------
